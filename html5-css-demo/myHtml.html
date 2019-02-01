@@ -1,0 +1,74 @@
+<head lang="en">
+<title>My HTML 5 DEMO</title>
+<meta charset="UTF-8" />
+<link rel="stylesheet" href="myStyles.css" />
+
+</head>
+
+<body>
+	<P>Hello !</P>
+	<form id="myForm">
+
+		<label for="date-input">Date input : </label>
+		<input type="date" id=date-input/>
+		<br>
+		<label for="time-input">Time input : </label>
+		<input type="time" id=time-input/>
+
+		<br>
+		<label for="month-input">Month input : </label>
+		<input type="month" id=time-input/>
+
+		<br>
+		<label for="week-input">Week input : </label>
+		<input type="week" id=time-input/>
+
+		<br>
+		<label for="range-input">Range input : </label>
+		<input type="range" min="60" max="100" id=range-input/>
+
+		<br>
+		<label for="search-input">Search input : </label>
+		<input type="search" id=search-input placeholder="Enter your name here" required>
+
+
+		<br>
+		<label for="tel-input">Telephone input : </label>
+		<input type="tel" id=tel-input required placeholder="Enter your phone here" />
+
+		<br>
+		<label for="email-input">Email input : </label>
+		<input type="email" id=email-input required placeholder="Enter your email here" multiple />
+
+		<br>
+		<label for="color-input">Color input : </label>
+		<input type="color" id=color-input />
+
+		<br>
+		<label for="dataList-input">Data List input : </label>
+		<input type="text" id=data-list-input list="myList" />
+		<datalist id="myList">
+			<option label="M" value="M"></option>
+			<option label="F" value="F"></option>
+			<option label="Other" value=O "></option>
+</datalist>
+
+<br>
+<label for="progress-input ">Progress: </label>
+<progress value="15 " max="50 " id="progress-input "/>
+
+
+<br>
+<label for="meter-input ">Meter: </label>
+<Meter min="10 " max="100 " value="100 " low="30 " high="70 " optimum="50 "/>
+
+<br>
+<input type="submit " value="Submit "/>
+
+</form>	
+
+
+	
+</body>
+
+</html>
