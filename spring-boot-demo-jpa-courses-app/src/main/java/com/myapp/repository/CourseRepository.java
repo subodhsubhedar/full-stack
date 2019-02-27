@@ -1,0 +1,41 @@
+package com.myapp.repository;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.myapp.entity.Course;
+
+@Repository
+@Transactional
+public class CourseRepository {
+
+	@Autowired
+	private EntityManager entMngr;
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Course findCourseById(Long id) {
+
+		return entMngr.find(Course.class, id);
+	}
+
+	public void deleteCourseById(Long id) {
+		entMngr.remove(entMngr.find(Course.class, id));
+	}
+
+	public void save(Course course) {
+
+		if (course.getId() == null) {
+			entMngr.persist(course);
+		} else {
+			entMngr.merge(course);
+		}
+	}
+
+}
