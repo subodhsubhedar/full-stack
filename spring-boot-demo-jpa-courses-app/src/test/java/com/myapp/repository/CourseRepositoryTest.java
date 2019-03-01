@@ -37,7 +37,7 @@ public class CourseRepositoryTest {
 	@Test
 	@DirtiesContext
 	public void createCourse() {
-		Course course = new Course("SQL Fundamentals");
+		Course course = new Course("SQL Fundamentals",null);
 		courseRepository.save(course);
 
 	}

@@ -1,14 +1,14 @@
 package com.myapp.entity;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table
@@ -20,11 +20,10 @@ public class Course {
 
 	private String title;
 
-	@CreationTimestamp
-	private LocalDateTime creationDateTime;
-
-	@UpdateTimestamp
-	private LocalDateTime updationDateTime;
+	//this is by default Lazy fetching
+	
+	@OneToMany(mappedBy = "course",fetch=FetchType.EAGER)
+	private List<Review> reviews = new ArrayList<Review>();
 
 	public Course() {
 
@@ -35,9 +34,10 @@ public class Course {
 		return "Course [id=" + id + ", title=" + title + "]";
 	}
 
-	public Course(String title) {
+	public Course(String title, List<Review> reviews) {
 		super();
 		this.title = title;
+		this.reviews = reviews;
 	}
 
 	public Long getId() {
@@ -52,19 +52,20 @@ public class Course {
 		this.title = title;
 	}
 
-	public LocalDateTime getCreationDateTime() {
-		return creationDateTime;
+	public List<Review> getReviews() {
+		return reviews;
 	}
 
-	public void setCreationDateTime(LocalDateTime creationDateTime) {
-		this.creationDateTime = creationDateTime;
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 
-	public LocalDateTime getUpdationDateTime() {
-		return updationDateTime;
+	public void addReview(Review review) {
+		this.reviews.add(review);
 	}
 
-	public void setUpdationDateTime(LocalDateTime updationDateTime) {
-		this.updationDateTime = updationDateTime;
+	public void deleteReview(Review review) {
+		this.reviews.remove(review);
 	}
+
 }

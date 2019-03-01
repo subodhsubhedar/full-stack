@@ -1,5 +1,7 @@
 package com.myapp.repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.myapp.entity.Course;
+import com.myapp.entity.Review;
 
 @Repository
 @Transactional
@@ -38,4 +41,22 @@ public class CourseRepository {
 		}
 	}
 
+	public List<Review> findReviewsForCourse(Long courseId) {
+
+		Course course = entMngr.find(Course.class, courseId);
+		List<Review> reviews = course.getReviews();
+
+		return reviews;
+	}
+
+	public Course findCourseForReview(Long reviewId) {
+
+		Review review = entMngr.find(Review.class, reviewId);
+
+		return review.getCourse();
+	}
+
+	public void addReviewstoCourse(Long courseId, List<Review> reviews) {
+
+	}
 }
