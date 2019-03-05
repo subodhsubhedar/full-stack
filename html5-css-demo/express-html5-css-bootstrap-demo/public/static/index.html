@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<head lang="en">
+	<title>My Profile</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="myStyles.css">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	 crossorigin="anonymous">
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	 crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	 crossorigin="anonymous"></script>
+
+	<style>
+		.vertical-center {
+			min-height: 100%;
+			/* Fallback for browsers do NOT support vh unit */
+			min-height: 100vh;
+			/* These two lines are counted as one 🙂       */
+			display: flex;
+			align-items: center;
+		}
+
+		.embed-responsive-10by3 {
+			position: relative;
+			overflow: hidden;
+		}
+	</style>
+	<script>
+		$(document).ready(function () { $('.mynavheader').load("navigation.html"); });
+	</script>
+
+</head>
+
+
+<div class="container">
+
+	<body background="img/77871.jpg">
+
+		<div class="embed-responsive embed-responsive-10by3">
+			<div class="mynavheader"></div>
+		</div>
+
+
+		<div class="vertical-center">
+			<main>
+				<section id="profileSummary">
+					<div class="row  align-items-center">
+						<div class="col-sm-8 order-last">
+							<article id="introduction">
+								<header align="left">
+									<h1>
+										<strong> Hello ! </strong>
+									</h1>
+									<h4>I am Subodh Subhedar.</h4>
+								</header>
+								<p>
+									<address>
+										<h4>
+											I live in Pune, India.
+										</h4>
+									</address>
+									<h5>
+										Got some nice skills in Java, J2EE, HTML5, JQuery, Angular, Bootstrap, Spring ... and so on.<br>
+										<br>
+										Had the
+										chance
+										to work for Capgemini & Cognizant.
+									</h5>
+
+								</p>
+							</article>
+
+						</div>
+						<div class="col-sm-1"></div>
+						<div class="col-sm-3 order-first" align="center">
+							<aside id="profilePic">
+								<a href="profileHighlights.html">
+									<figure>
+										<picture>
+											<img src="profilePic.png" alt="My Profile Pic" class="figure-img img-fluid img-thumbnail rounded" />
+										</picture>
+										<figcaption align="auto" class="figure-caption">Subodh Subhedar
+										</figcaption>
+									</figure>
+								</a>
+							</aside>
+						</div>
+					</div>
+
+				</section>
+			</main>
+		</div>
+
+
+	</body>
+</div>
+
+
+
+
+
+</html>
