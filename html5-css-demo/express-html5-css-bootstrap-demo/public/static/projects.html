@@ -30,9 +30,7 @@
 			overflow: hidden;
 		}
 	</style>
-	<script>
-		$(document).ready(function () { $('.mynavheader').load("navigation.html"); });
-	</script>
+	<script src="myscript.js"></script>
 
 </head>
 <div class="container">
@@ -122,6 +120,10 @@
 						</article>
 					</section>
 				</li>
+
+
+
+
 				<li style="list-style-type:none;">
 					<section id="prj3Section">
 						<article id="prj3Article">
@@ -268,6 +270,33 @@
 
 
 			</section>
+
+
+
+			<div class="container">
+				<div class="card border-primary">
+					<div class="badge badge-primary text-left">
+
+						<h5>Add New Project</h5>
+
+					</div>
+					<div class="card-body">
+						<p class="card-text">
+
+							<input type="text" size="100" maxlength="150" placeholder="Project name" id="addProjectName-input" required />
+
+							<br>
+							<br>
+
+							<textarea maxlength="200" rows="8" cols="100" id="addProjectDesc-input" required placeholder="Add content here.."
+							 WRAP="hard"></textarea>
+						</p>
+						<a href="#" id="addProjectBtn" class="btn btn-primary" >Add</a>
+					</div>
+				</div>
+			</div>
+
+
 		</main>
 
 	</body>

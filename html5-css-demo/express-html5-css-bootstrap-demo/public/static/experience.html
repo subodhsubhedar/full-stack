@@ -30,9 +30,7 @@
 			overflow: hidden;
 		}
 	</style>
-	<script>
-		$(document).ready(function () { $('.mynavheader').load("navigation.html"); });
-	</script>
+	<script src="myscript.js"></script>
 
 
 </head>
@@ -64,7 +62,7 @@
 							</p>
 						</header>
 
-						<ul>
+						<ul id="experienceArticleUList">
 
 							<li>Thorough experience of working on projects for world’s largest banks like – <strong>HSBC, UBS </strong>in
 								core product development area
@@ -114,6 +112,25 @@
 							</li>
 
 						</ul>
+
+
+						<div class="container">
+								<div class="card border-primary">
+									<div class="badge badge-primary text-left">
+		
+										<h5> Add a new point in Experience</h5>
+		
+									</div>
+									<div class="card-body">
+										<p class="card-text">
+											<textarea maxlength="200" rows="8" cols="100" id="addExperience-input" required placeholder="Add content here.."
+											 WRAP="hard"></textarea>
+										</p>
+										<a href="#" id="addExperienceBtn" class="btn btn-primary" >Add</a>
+									</div>
+								</div>
+							</div>
+
 					</article>
 				</section>
 

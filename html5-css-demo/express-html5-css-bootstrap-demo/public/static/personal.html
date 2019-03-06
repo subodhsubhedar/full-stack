@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="myStyles.css">
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	 crossorigin="anonymous">
+	 crossorigin="anonymous"> 
 
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -31,10 +31,8 @@
 			overflow: hidden;
 		}
 	</style>
-	<script>
-		$(document).ready(function () { $('.mynavheader').load("navigation.html"); });
-	</script>
 
+	<script src="myscript.js"></script>
 
 </head>
 <div class="container">
@@ -104,7 +102,7 @@
 
 					</header>
 
-					<ul>
+					<ul id="qualificationsArticleUList">
 						<li>
 							2002-2006 : <b> B.E., Bachelor of Engineering </b>, SGSITS – Shri Govindram Seksariya Institute of Technology
 							and Science – INDORE,
@@ -115,9 +113,31 @@
 						</li>
 						<li>
 							1999- 2000 : X CBSE, 80 %
+						
 						</li>
 
 					</ul>
+					<br>
+					<br>
+
+					<div class="container">
+						<div class="card border-primary">
+							<div class="badge badge-primary text-left">
+
+								<h5> Add New Qualification</h5>
+
+							</div>
+							<div class="card-body">
+								<p class="card-text">
+									<textarea maxlength="200" rows="8" cols="100" id="addQualifications-input" required placeholder="Add content here.."
+									 WRAP="hard"></textarea>
+								</p>
+								<a href="#" class="btn btn-primary" id="addQualificationsBtn">Add</a>
+
+
+							</div>
+						</div>
+					</div>
 
 				</article>
 			</section>
