@@ -2,27 +2,25 @@ package com.myapp.library.menu.service;
 
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.myapp.library.entity.Book;
 import com.myapp.library.entity.Subject;
 import com.myapp.library.exception.LibraryDaoException;
 import com.myapp.library.exception.LibraryServiceException;
 import com.myapp.library.menu.dao.LibraryDao;
-import com.myapp.library.menu.dao.LibraryHibernateDaoImpl;
-import com.myapp.library.menu.dao.LibraryJpaRepository;
 
 /**
  * 
  * @author Admin
  *
  */
+@Service
 public class LibraryServiceImpl implements LibraryService {
-	private LibraryDao catalogueDao = null;
 
-	public LibraryServiceImpl() {
-	//	 catalogueDao = new LibraryHibernateDaoImpl();
-
-		catalogueDao = new LibraryJpaRepository();
-	}
+	@Autowired
+	private LibraryDao catalogueDao;
 
 	@Override
 	public Set<Subject> findAllSubjects() throws LibraryServiceException {
@@ -118,20 +116,29 @@ public class LibraryServiceImpl implements LibraryService {
 
 	@Override
 	public Set<Subject> findAllSubjectsSortByTitle() throws LibraryServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return catalogueDao.findAllSubjectsSortByTitle();
+		} catch (LibraryDaoException e) {
+			throw new LibraryServiceException("Exception Occured while findAllSubjectsSortByTitle ");
+		}
 	}
 
 	@Override
 	public Set<Book> findAllBooksSortByTitle() throws LibraryServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return catalogueDao.findAllBooksSortByTitle();
+		} catch (LibraryDaoException e) {
+			throw new LibraryServiceException("Exception Occured while findAllBooksSortByTitle ");
+		}
 	}
 
 	@Override
 	public Set<Book> findAllBooksSortByPublishdDt() throws LibraryServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return catalogueDao.findAllBooksSortByPublishdDt();
+		} catch (LibraryDaoException e) {
+			throw new LibraryServiceException("Exception Occured while findAllBooksSortByPublishdDt ");
+		}
 	}
 
 }

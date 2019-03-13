@@ -10,17 +10,22 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.myapp.library.entity.Book;
 import com.myapp.library.entity.Subject;
 import com.myapp.library.exception.LibraryDaoException;
-import com.myapp.library.menu.dao.util.JpaUtil;
 
+@Repository
+@Transactional
 public class LibraryJpaRepository implements LibraryDao {
 
-	private EntityManager entityMngr = null;
+	@Autowired
+	private EntityManager entityMngr;
 
 	private void init() {
-		entityMngr = JpaUtil.getEntityManager();
+		// entityMngr = JpaUtil.getEntityManager();
 		entityMngr.getTransaction().begin();
 	}
 
@@ -39,9 +44,8 @@ public class LibraryJpaRepository implements LibraryDao {
 			init();
 
 			entityMngr.persist(book);
-			
-			commitTxn();
 
+			commitTxn();
 			newbook = book;
 
 		} catch (Exception e) {
@@ -52,7 +56,6 @@ public class LibraryJpaRepository implements LibraryDao {
 		return newbook;
 	}
 
-	@Transactional
 	@Override
 	public Subject createSubject(Subject subject) throws LibraryDaoException {
 
@@ -64,7 +67,6 @@ public class LibraryJpaRepository implements LibraryDao {
 			entityMngr.persist(subject);
 
 			commitTxn();
-
 			newSubject = subject;
 
 		} catch (Exception e) {
@@ -82,14 +84,7 @@ public class LibraryJpaRepository implements LibraryDao {
 
 			init();
 
-			//subjectList = entityMngr.createQuery("select s from Subject s", Subject.class).getResultList();
-			
-
-			CriteriaBuilder cb = entityMngr.getCriteriaBuilder();
-			CriteriaQuery<Subject> cq = cb.createQuery(Subject.class);
-			Root<Subject> sm = cq.from(Subject.class);
-			
-			subjectList = entityMngr.createQuery(cq).getResultList();
+			subjectList = entityMngr.createQuery("select s from Subject s", Subject.class).getResultList();
 
 			commitTxn();
 
@@ -264,6 +259,83 @@ public class LibraryJpaRepository implements LibraryDao {
 		}
 
 		return subject;
+	}
+
+	@Override
+	public Set<Book> findAllBooksSortByTitle() throws LibraryDaoException {
+
+		List<Book> books = null;
+		try {
+
+			init();
+
+			CriteriaBuilder cb = entityMngr.getCriteriaBuilder();
+			CriteriaQuery<Book> cq = cb.createQuery(Book.class);
+			Root<Book> sm = cq.from(Book.class);
+
+			cq.orderBy(cb.asc(sm.get("title")));
+
+			books = (List<Book>) entityMngr.createQuery(cq).getResultList();
+
+			commitTxn();
+
+		} catch (Exception e) {
+			rollbackTxn();
+			throw new LibraryDaoException("Exception occured while fidning all books sorted by title ", e);
+		}
+
+		return new LinkedHashSet<Book>(books);
+
+	}
+
+	@Override
+	public Set<Subject> findAllSubjectsSortByTitle() throws LibraryDaoException {
+		List<Subject> subjects = null;
+		try {
+
+			init();
+
+			CriteriaBuilder cb = entityMngr.getCriteriaBuilder();
+			CriteriaQuery<Subject> cq = cb.createQuery(Subject.class);
+			Root<Subject> sm = cq.from(Subject.class);
+
+			cq.orderBy(cb.asc(sm.get("subtitle")));
+
+			subjects = (List<Subject>) entityMngr.createQuery(cq).getResultList();
+
+			commitTxn();
+
+		} catch (Exception e) {
+			rollbackTxn();
+			throw new LibraryDaoException("Exception occured while findAllSubjectsSortByTitle ", e);
+		}
+
+		return new LinkedHashSet<Subject>(subjects);
+	}
+
+	@Override
+	public Set<Book> findAllBooksSortByPublishdDt() throws LibraryDaoException {
+		List<Book> books = null;
+		try {
+
+			init();
+
+			CriteriaBuilder cb = entityMngr.getCriteriaBuilder();
+			CriteriaQuery<Book> cq = cb.createQuery(Book.class);
+			Root<Book> sm = cq.from(Book.class);
+
+			cq.orderBy(cb.asc(sm.get("publishDate")));
+
+			books = (List<Book>) entityMngr.createQuery(cq).getResultList();
+
+			commitTxn();
+
+		} catch (Exception e) {
+			rollbackTxn();
+			throw new LibraryDaoException("Exception occured while fidning all books sorted publish date ", e);
+		}
+
+		return new LinkedHashSet<Book>(books);
 	}
 
 }

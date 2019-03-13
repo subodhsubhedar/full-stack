@@ -3,7 +3,6 @@ package com.myapp.library.entity;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,9 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 /**
  * 
@@ -40,7 +36,7 @@ public class Subject implements Serializable {
 	@Column(name = "durationInHrs")
 	private int durationInHrs;
 
-	@OneToMany(mappedBy = "subject", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "subject", fetch=FetchType.EAGER)
 	private Set<Book> references;
 
 	public Subject(long subjectId, String subtitle, int durationInHrs, Set<Book> references) {
