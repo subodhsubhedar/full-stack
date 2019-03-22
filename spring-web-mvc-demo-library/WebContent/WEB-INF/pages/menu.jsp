@@ -29,53 +29,80 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
 <script type="text/javascript">
-	
-	function setValue(val){
-		if(val == 6 || val==5 || val==3 ||val ==4){
-			document.getElementById("searchCriteriaDiv").style.display="block";	
-		}else{
-			document.getElementById("searchCriteriaDiv").style.display="none";	
-		}
-	}
-	
-	</script>
+	$(document)
+			.ready(
+					function() {
+
+						$("input[name='menuIndex']").on("click", setValue);
+
+						function setValue() {
+							var val = ($('input:radio:checked').val());
+
+							if (val == 6 || val == 5 || val == 3 || val == 4) {
+								document.getElementById("searchCriteriaDiv").style.display = "block";
+							} else {
+								document.getElementById("searchCriteriaDiv").style.display = "none";
+								document.getElementById("searchCriteriaId").value = "";
+							}
+						}
+
+						$(window).load(setValue);
+					});
+</script>
 
 </head>
 <body>
 
 	<div class="container">
 		<br> <br>
-		<form:form method="post" action="menu/show-main" name="menuSelForm"
+		<form:form method="post" action="process-main" name="menuSelForm"
 			modelAttribute="mainMenuModel">
 
 			<div class="jumbotron">
 				<h1 class="display-4">${welcomeMsg}
 					<br> <br>
+
 				</h1>
 				<p class="lead">
 					<b>${selectionMsg}</b>
 				</p>
 				<hr class="my-4">
 
-				<div class="form-check">
-					<p>
-						<c:forEach var="menu" items="${menuModelList}">
 
-							<form:radiobutton path="menuIndex" value="${menu.menuIndex}"
-								label="${menu.menuDesc}" onclick="setValue(${menu.menuIndex})" />
-							<br>
-						</c:forEach>
-					</p>
-					<div id="searchCriteriaDiv" style="display: none;">
-						<form:input type="text" placeholder="Enter search criteria"
-							size="100" id="searchCriteriaId" name="searchCriteriaName"
-							path="menuCriteria" />
-					</div>
-					<br>
+				<p>
+					<c:forEach var="menu" items="${menuModelList}">
+
+						<form:radiobutton path="menuIndex" value="${menu.menuIndex}"
+							name="menuIndex" id="menuIndex${menu.menuIndex}"
+							label="${menu.menuDesc}" />
+						<br>
+					</c:forEach>
+				</p>
+				<div id="searchCriteriaDiv" style="display: none;">
+
+					<spring:bind path="menuCriteria">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Criteria for search
+								: </label>
+							<div class="col-sm-10">
+								<form:input path="menuCriteria" type="text"
+									class="form-control ${status.error ? 'is-invalid' : ''}"
+									placeholder="Enter search criteria" size="100"
+									id="searchCriteriaId" name="searchCriteriaName"
+									value="${mainMenuModel.menuCriteria}" />
+								<form:errors path="menuCriteria" class="control-label" />
+							</div>
+						</div>
+					</spring:bind>
 
 				</div>
+
+				<br>
+
+
 				<p class="lead">
 
 					<button type="submit" class="btn btn-primary">Submit</button>

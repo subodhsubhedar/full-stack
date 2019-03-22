@@ -100,7 +100,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">Publish date : </label>
 										<div class="col-sm-10">
-											<form:input path="publishDate" type="date" 
+											<form:input path="publishDate" type="date" name="publishDate"
 												class="form-control ${status.error ? 'is-invalid' : ''}"
 												id="publishDate" placeholder="Publish Date"
 												value="${book.publishDate}" />

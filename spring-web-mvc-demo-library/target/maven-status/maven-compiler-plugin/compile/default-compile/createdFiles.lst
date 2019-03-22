@@ -1,5 +1,7 @@
 com\myapp\library\menu\service\LibraryServiceImpl.class
 com\myapp\menu\MainMenuModel.class
+com\myapp\controller\LibraryBookController$1.class
+com\myapp\controller\validation\MenuValidator.class
 com\myapp\controller\validation\SubjectValidator.class
 com\myapp\library\exception\LibraryDaoException.class
 com\myapp\controller\LibrarySubjectController.class

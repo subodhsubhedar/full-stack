@@ -9,14 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.myapp.controller.validation.MenuValidator;
 import com.myapp.library.entity.Book;
-import com.myapp.library.entity.Subject;
 import com.myapp.library.exception.LibraryServiceException;
 import com.myapp.library.menu.service.LibraryService;
 import com.myapp.menu.MainMenu;
@@ -29,26 +32,44 @@ public class LibraryMenuController {
 	@Autowired
 	private LibraryService catalogueService;
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ModelAndView showMainMenu(ModelMap map) {
+	@Autowired
+	private MenuValidator validator;
 
-		ModelAndView mv = new ModelAndView("main-menu");
+	@InitBinder("mainMenuModel")
+	protected void initBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
 
-		List<MainMenuModel> menuModelList = populateMenu();
+	@RequestMapping(value = "/show-main", method = RequestMethod.GET)
+	public ModelAndView showMainMenu(ModelMap map, @ModelAttribute("mainMenuModel") MainMenuModel model,
+			BindingResult result) {
 
-		map.addAttribute("mainMenuModel",
-				new MainMenuModel(MainMenu.ADD_NEW_SUBJECT.getKey(), MainMenu.ADD_NEW_SUBJECT.getValue()));
+		ModelAndView mv = buildMainMenuModelView();
 
-		map.addAttribute("welcomeMsg", "Welcome ..");
-
-		map.addAttribute("selectionMsg", "Please choose one of the option below");
-
-		map.addAttribute("menuModelList", menuModelList);
+		if (model == null || (model != null && ((model.getMenuDesc() == null) || (model.getMenuDesc().equals(""))))) {
+			mv.addObject("mainMenuModel",
+					new MainMenuModel(MainMenu.ADD_NEW_SUBJECT.getKey(), MainMenu.ADD_NEW_SUBJECT.getValue()));
+		}
 
 		return mv;
 	}
 
-	// @ModelAttribute("menuModelList")
+	/**
+	 * 
+	 * @return
+	 */
+	protected ModelAndView buildMainMenuModelView() {
+		ModelAndView mv = new ModelAndView("main-menu");
+
+		List<MainMenuModel> menuModelList = populateMenu();
+
+		mv.addObject("welcomeMsg", "Welcome ..");
+		mv.addObject("selectionMsg", "Please choose one of the option below");
+		mv.addObject("menuModelList", menuModelList);
+
+		return mv;
+	}
+
 	public List<MainMenuModel> populateMenu() {
 		List<MainMenuModel> menuModelList = new ArrayList<MainMenuModel>();
 
@@ -61,16 +82,32 @@ public class LibraryMenuController {
 
 	}
 
-	@RequestMapping(value = "/show-main", method = RequestMethod.POST)
-	public ModelAndView processMenuSelection(ModelMap map, @ModelAttribute("mainMenuModel") MainMenuModel model,
-			BindingResult result, RedirectAttributes redirAttr) throws IOException {
+	@RequestMapping(value = "/process-main", method = RequestMethod.POST)
+	public ModelAndView processMenuSelection(ModelMap map,
+			@ModelAttribute("mainMenuModel") @Validated MainMenuModel model, BindingResult result,
+			RedirectAttributes redirAttr) throws IOException {
 
 		int selMenuModelIndex = model.getMenuIndex();
 
 		System.out.println("selMenuModelIndex : " + selMenuModelIndex);
 
+		for (MainMenu menu : MainMenu.values()) {
+			if (menu.getKey() == selMenuModelIndex) {
+				model.setMenuDesc(menu.getValue());
+			}
+		}
+
 		String modelAndView;
-		ModelAndView mv = new ModelAndView();
+
+		if (result.hasErrors()) {
+
+			ModelAndView mv = buildMainMenuModelView();
+
+			mv.addObject("mainMenuModel", model);
+			mv.addObject("org.springframework.validation.BindingResult", result);
+
+			return mv;
+		}
 
 		switch (selMenuModelIndex) {
 
@@ -110,24 +147,30 @@ public class LibraryMenuController {
 			modelAndView = "all-subjects";
 			break;
 		}
-		case 9: {
+		case 0: {
 			modelAndView = "quit";
 			break;
 		}
 
 		default: {
-			modelAndView = "menu";
+			modelAndView = "#";
 			break;
 		}
 
 		}
+		ModelAndView mv = new ModelAndView();
 		mv.setViewName("redirect:" + modelAndView);
 		return mv;
 	}
 
 	@RequestMapping(value = "/goBackToMainMenu", method = RequestMethod.GET)
 	public ModelAndView goBack() {
-		return new ModelAndView("redirect:/library/menu");
+		return new ModelAndView("redirect:/library/menu/show-main");
+	}
+
+	@RequestMapping(value = "/quit", method = RequestMethod.GET)
+	public ModelAndView quit() {
+		return new ModelAndView("redirect:/library/");
 	}
 
 	/**

@@ -34,9 +34,11 @@
 	
 	function setValue(val){
 		if(val == 6 || val==5 || val==3 ||val ==4){
-			document.getElementById("searchCriteriaDiv").style.display="block";	
+		//	document.getElementById("searchCriteriaDiv").style.display="block";	
 		}else{
-			document.getElementById("searchCriteriaDiv").style.display="none";	
+		//	document.getElementById("searchCriteriaDiv").style.display="none";	
+			document.getElementById("searchCriteriaId").value ="";
+			
 		}
 	}
 	
@@ -59,23 +61,36 @@
 				</p>
 				<hr class="my-4">
 
-				<div class="form-check">
-					<p>
-						<c:forEach var="menu" items="${menuModelList}">
 
-							<form:radiobutton path="menuIndex" value="${menu.menuIndex}"
-								label="${menu.menuDesc}" onclick="setValue(${menu.menuIndex})" />
-							<br>
-						</c:forEach>
-					</p>
-					<div id="searchCriteriaDiv" style="display: none;">
-						<form:input type="text" placeholder="Enter search criteria"
-							size="100" id="searchCriteriaId" name="searchCriteriaName"
-							path="menuCriteria" />
-					</div>
-					<br>
+				<p>
+					<c:forEach var="menu" items="${menuModelList}">
+
+						<form:radiobutton path="menuIndex" value="${menu.menuIndex}"
+							label="${menu.menuDesc}" onclick="setValue(${menu.menuIndex})" />
+						<br>
+					</c:forEach>
+				</p>
+				<div id="searchCriteriaDiv">
+
+					<spring:bind path="menuCriteria">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Criteria for search
+								: </label>
+							<div class="col-sm-10">
+								<form:input path="menuCriteria" type="text"
+									class="form-control ${status.error ? 'is-invalid' : ''}"
+									placeholder="Enter search criteria" size="100"
+									id="searchCriteriaId" name="searchCriteriaName"
+									value="${mainMenuModel.menuCriteria}" />
+								<form:errors path="menuCriteria" class="control-label" />
+							</div>
+						</div>
+					</spring:bind>
 
 				</div>
+				<br>
+
+
 				<p class="lead">
 
 					<button type="submit" class="btn btn-primary">Submit</button>

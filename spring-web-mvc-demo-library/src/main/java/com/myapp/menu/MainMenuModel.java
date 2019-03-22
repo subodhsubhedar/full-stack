@@ -20,7 +20,7 @@ public class MainMenuModel {
 
 	@Override
 	public String toString() {
-		return "MainMenuModel [menuIndex=" + menuIndex + ", menuDesc=" + menuDesc + "]";
+		return "MainMenuModel [menuIndex=" + menuIndex + ", menuDesc=" + menuDesc +  ", menuCriteria=" + menuCriteria +"]";
 	}
 
 	public String getMenuCriteria() {
