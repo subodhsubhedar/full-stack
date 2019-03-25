@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myapp.controller.validation.SearchSubjectValidator;
+import com.myapp.controller.validation.SubjectSearchCriteria;
 import com.myapp.controller.validation.SubjectValidator;
 import com.myapp.library.entity.Subject;
 import com.myapp.library.exception.LibraryServiceException;
@@ -30,9 +32,18 @@ public class LibrarySubjectController {
 	@Autowired
 	private SubjectValidator validator;
 
-	@InitBinder("subject")
+	@Autowired
+	private SearchSubjectValidator searchSubjectValidator;
+
+	@InitBinder(value = { "subject", "searchSubjectCriteria" })
 	protected void initBinder(WebDataBinder binder) {
-		binder.setValidator(validator);
+
+		if (binder.getTarget().getClass().equals(Subject.class)) {
+			binder.setValidator(validator);
+
+		} else if (binder.getTarget().getClass().equals(SubjectSearchCriteria.class)) {
+			binder.setValidator(searchSubjectValidator);
+		}
 	}
 
 	@RequestMapping(value = "/all-subjects", method = RequestMethod.GET)
@@ -59,11 +70,29 @@ public class LibrarySubjectController {
 	 * 
 	 * @throws LibraryServiceException
 	 */
+	public Set<Subject> findAllSubjectsByDuration(int durationStart, int durationEnd) throws LibraryServiceException {
+
+		Set<Subject> subjectSet = catalogueService.findSubjectByDuration(durationStart, durationEnd);
+
+		if (subjectSet != null && !subjectSet.isEmpty()) {
+			System.out.println("\nTotal Subjects available : " + subjectSet.size());
+			subjectSet.forEach(name -> {
+				System.out.println(name.toString());
+			});
+		} else {
+			System.out.println("\nNo Subjects are available currently in the Library Catalogue.");
+		}
+		return subjectSet;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @throws LibraryServiceException
+	 */
 	public Set<Subject> findAllSubjects() throws LibraryServiceException {
 
 		Set<Subject> subjectSet = catalogueService.findAllSubjects();
-
-		//Set<Subject> subjectSet = catalogueService.findSubjectByDuration(1, 10000);
 
 		if (subjectSet != null && !subjectSet.isEmpty()) {
 			System.out.println("\nTotal Subjects available : " + subjectSet.size());
@@ -162,6 +191,41 @@ public class LibrarySubjectController {
 		mv.addObject("addedSubjectTitle", subject.getSubtitle());
 
 		return mv;
+	}
+
+	@RequestMapping(value = "/search-subject-by-duration", method = RequestMethod.GET)
+	public ModelAndView searchSubjectByDuration(
+			@ModelAttribute("searchSubjectCriteria") final SubjectSearchCriteria searchSubjectCriteria) {
+
+		return new ModelAndView("search-subject-by-duration-view");
+	}
+
+	@RequestMapping(value = "/search-subject-by-duration", method = RequestMethod.POST)
+	public ModelAndView searchSubjectByDuration(
+			@ModelAttribute("searchSubjectCriteria") final @Validated SubjectSearchCriteria subjectSearchCriteria,
+			BindingResult result) {
+
+		if (result.hasErrors()) {
+			ModelAndView mv = new ModelAndView("search-subject-by-duration-view");
+
+			return mv;
+		}
+
+		Set<Subject> subjectSet = null;
+		try {
+			subjectSet = catalogueService.findSubjectByDuration(subjectSearchCriteria.getDurationStart(),
+					subjectSearchCriteria.getDurationEnd());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		ModelAndView mvSuccess = new ModelAndView("all-subjects-view");
+
+		if (subjectSet != null) {
+			mvSuccess.addObject("allSubjectsList", subjectSet);
+		}
+
+		return mvSuccess;
 	}
 
 	/**

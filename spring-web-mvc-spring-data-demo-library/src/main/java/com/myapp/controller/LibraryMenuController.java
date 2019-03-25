@@ -147,6 +147,10 @@ public class LibraryMenuController {
 			modelAndView = "all-subjects";
 			break;
 		}
+		case 9: {
+			modelAndView = "search-subject-by-duration";
+			break;
+		}
 		case 0: {
 			modelAndView = "quit";
 			break;

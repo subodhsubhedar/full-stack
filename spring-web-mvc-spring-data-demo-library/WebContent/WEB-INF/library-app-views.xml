@@ -34,6 +34,13 @@
 		<property name="url"
 			value="/WEB-INF/pages/search-subject.jsp" />
 	</bean>
+	
+	<bean id="search-subject-by-duration-view"
+		class="org.springframework.web.servlet.view.JstlView">
+		<property name="url"
+			value="/WEB-INF/pages/search-subject-by-duration.jsp" />
+	</bean>
+	
 	<bean id="delete-subject-view"
 		class="org.springframework.web.servlet.view.JstlView">
 		<property name="url"

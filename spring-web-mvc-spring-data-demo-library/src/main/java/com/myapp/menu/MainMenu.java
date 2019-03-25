@@ -20,7 +20,11 @@ public enum MainMenu {
 
 	SEARCH_BOOK(6, "Search Book"),
 
-	LIST_ALL_BOOKS(7, "List all Books"), LIST_ALL_SUBJECTS(8, "List all Subjects"), QUIT(0, "Quit");
+	LIST_ALL_BOOKS(7, "List all Books"), LIST_ALL_SUBJECTS(8, "List all Subjects"), 
+	
+	SEARCH_SUBJECTS_BY_DURATION(9, "Search Subject by duration"),
+	
+	QUIT(0, "Quit");
 
 	private final int key;
 	private final String value;
