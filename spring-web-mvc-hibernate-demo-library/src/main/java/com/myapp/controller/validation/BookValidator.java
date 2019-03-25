@@ -25,7 +25,7 @@ public class BookValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "NotEmpty.book");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "volume", "NotEmpty.book");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publishDate", "NotEmpty.book");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subjectId", "NotEmpty.book");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subject", "NotEmpty.book");
 
 		if (book.getPrice() == 0) {
 			errors.rejectValue("price", "NotEmpty.book.price");
@@ -37,8 +37,8 @@ public class BookValidator implements Validator {
 		if (book.getPublishDate() != null && book.getPublishDate().isAfter(LocalDate.now())) {
 			errors.rejectValue("publishDate", "invalid.book.publishDate");
 		}
-		if (book.getSubject().getSubjectId() == 99999) {
-			errors.rejectValue("subjectId", "NotEmpty.book.subjectId");
+		if (book.getSubject() == null) {
+			errors.rejectValue("subject", "NotEmpty.book.subject");
 		}
 	}
 

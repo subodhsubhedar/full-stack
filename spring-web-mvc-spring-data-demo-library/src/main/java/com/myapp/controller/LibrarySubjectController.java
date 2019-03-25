@@ -61,9 +61,9 @@ public class LibrarySubjectController {
 	 */
 	public Set<Subject> findAllSubjects() throws LibraryServiceException {
 
-		// Set<Subject> subjectSet = catalogueService.findAllSubjects();
+		Set<Subject> subjectSet = catalogueService.findAllSubjects();
 
-		Set<Subject> subjectSet = catalogueService.findSubjectByDuration(1, 10000);
+		//Set<Subject> subjectSet = catalogueService.findSubjectByDuration(1, 10000);
 
 		if (subjectSet != null && !subjectSet.isEmpty()) {
 			System.out.println("\nTotal Subjects available : " + subjectSet.size());

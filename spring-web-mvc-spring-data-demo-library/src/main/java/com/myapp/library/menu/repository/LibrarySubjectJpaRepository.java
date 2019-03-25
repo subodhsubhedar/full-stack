@@ -14,7 +14,7 @@ import com.myapp.library.entity.Subject;
 public interface LibrarySubjectJpaRepository extends JpaRepository<Subject, Long> {
 
 	Optional<Subject> findBySubtitle(String subtitle);
-
+	
 	@Query(value = "from Subject s where durationInHrs BETWEEN :start AND :end")
 	List<Subject> findSubjectBetweenDuration(@Param("start") int startVal, @Param("end") int endVal);
 

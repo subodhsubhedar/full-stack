@@ -15,8 +15,8 @@ import com.myapp.library.entity.Subject;
  * @author Admin
  *
  */
-@Configuration
-@EnableJpaRepositories(basePackages = "com.myapp.library.menu.repository")
+//@Configuration
+//@EnableJpaRepositories(basePackages = "com.myapp.library.menu.repository")
 
 public class PersistenceConfig {
 

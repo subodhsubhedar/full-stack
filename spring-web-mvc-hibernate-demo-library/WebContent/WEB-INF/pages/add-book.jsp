@@ -109,16 +109,18 @@
 									</div>
 								</spring:bind>
 
-								<spring:bind path="subjectId">
+							
+								<spring:bind path="subject.subjectId">
 									<div class="form-group">
 										<label class="col-sm-2 control-label">Select Subject :
 										</label>
-										<form:select path="subjectId" 
+										<form:select path="subject.subjectId"
 											class="form-control ${status.error ? 'is-invalid' : ''}">
 											<form:option value="99999" label="Select" />
-											<form:options  items="${availableSubjectList}"  itemValue="subjectId" itemLabel="subtitle" />
+											<form:options items="${availableSubjectList}"
+												itemValue="subjectId" itemLabel="subtitle" />
 										</form:select>
-										<form:errors path="subjectId" class="control-label" />
+										<form:errors path="subject.subjectId" class="control-label" />
 									</div>
 								</spring:bind>
 

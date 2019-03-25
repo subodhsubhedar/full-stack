@@ -150,6 +150,7 @@ public class LibraryServiceImpl implements LibraryService {
 
 	}
 
+
 	@Override
 	public Set<Subject> findSubjectByDuration(int startValue, int endValue) throws LibraryServiceException {
 		List<Subject> subjectList;
