@@ -38,6 +38,8 @@ public class LibraryServiceImpl implements LibraryService {
 
 			return new LinkedHashSet<Subject>(subjectRepository.findAll());
 
+		} catch (DataAccessException dae) {
+			throw new LibraryServiceException("DataAccessException Occured while retrieving all Subjects", dae);
 		} catch (Exception e) {
 			throw new LibraryServiceException("Exception Occured while retrieving all subjects.", e);
 		}

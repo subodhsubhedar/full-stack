@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myapp.library.entity.Book;
+import com.myapp.library.entity.Subject;
 import com.myapp.library.exception.LibraryServiceException;
 import com.myapp.library.menu.service.LibraryService;
 
+@CrossOrigin(origins="http://localhost:4200")
 @RestController
 public class LibraryBookRestController {
 
@@ -29,6 +32,11 @@ public class LibraryBookRestController {
 		return catalogueService.findAllBooks();
 	}
 
+	@GetMapping(value = "/subjects")
+	public Set<Subject> listAllSubjects() throws LibraryServiceException {
+		return catalogueService.findAllSubjects();
+	}
+	
 	@GetMapping(value = "/book/{bookId}")
 	public Book getBook(@PathVariable @Valid @NotNull Long bookId) throws LibraryServiceException {
 
