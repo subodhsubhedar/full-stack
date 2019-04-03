@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="main-menu"
+		class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="/WEB-INF/secure/menu.jsp" />
+	</bean>
+
+	<bean id="all-subjects-view"
+		class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="/WEB-INF/secure/all-subjects.jsp" />
+	</bean>
+
+	<bean id="all-books-view"
+		class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="/WEB-INF/secure/all-books.jsp" />
+	</bean>
+
+	<bean id="search-book-view"
+		class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="/WEB-INF/secure/search-book.jsp" />
+	</bean>
+
+	<bean id="delete-book-view"
+		class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="/WEB-INF/secure/delete-book.jsp" />
+	</bean>
+
+	<bean id="search-subject-view"
+		class="org.springframework.web.servlet.view.JstlView">
+		<property name="url"
+			value="/WEB-INF/secure/search-subject.jsp" />
+	</bean>
+	<bean id="delete-subject-view"
+		class="org.springframework.web.servlet.view.JstlView">
+		<property name="url"
+			value="/WEB-INF/secure/delete-subject.jsp" />
+	</bean>
+
+	<bean id="add-subject-view"
+		class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="/WEB-INF/secure/add-subject.jsp" />
+	</bean>
+
+	<bean id="add-book-view"
+		class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="/WEB-INF/secure/add-book.jsp" />
+	</bean>
+
+	<bean id="login-view"
+		class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="/WEB-INF/custom-login.jsp" />
+	</bean>
+
+	<bean id="welcome-view"
+		class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="/WEB-INF/secure/index.jsp" />
+	</bean>
+
+	<bean id="registration-view"
+		class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="/WEB-INF/registration.jsp" />
+	</bean>
+</beans>
