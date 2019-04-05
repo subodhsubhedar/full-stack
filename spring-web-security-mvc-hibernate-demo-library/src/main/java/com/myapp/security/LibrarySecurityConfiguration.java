@@ -1,6 +1,10 @@
 package com.myapp.security;
 
-import javax.sql.DataSource;
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -8,91 +12,65 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.stereotype.Component;
 
 @Configuration
 @EnableWebSecurity
 public class LibrarySecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private DataSource dataSource;
-	
-	@Autowired
 	private UserDetailsService libraryUserDetailsService;
-	
+
 	@Autowired
-	private BCryptPasswordEncoder  passwordEncoder;
-	
-	
+	private BCryptPasswordEncoder passwordEncoder;
+
+	@Autowired
+	private AuthenticationFailureHandler authenticationFailureHandler;
+
+	@Component
+	public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+
+		@Override
+		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+				AuthenticationException exception) throws IOException, ServletException {
+
+			response.sendRedirect("login?auth_error=" + exception.getMessage());
+		}
+	}
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
 		// Encoding password
-		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-
-		/*auth.inMemoryAuthentication()
-			.withUser("David")
-				.password(encoder.encode("david123"))
-				.roles("PRINCIPAL")
-			.and()
-				.withUser("Jyoti")
-				.password(encoder.encode("jyoti123"))
-				.roles("LIBRARIAN")
-			.and()
-				.withUser("admin")
-				.password(encoder.encode("admin123"))
-				.roles("ADMIN");*/
-		
-		/*auth.jdbcAuthentication().dataSource(dataSource)
-		.usersByUsernameQuery
-			("select user_id, password, username from library_users where username=?")
-		.authoritiesByUsernameQuery
-			("select lb.role_id, lb.role_name from library_roles lb left join library_users lu on lb.role_id = lu.roles_role_id where lu.username=?");
-			*/
 		auth.userDetailsService(libraryUserDetailsService).passwordEncoder(passwordEncoder);
-		
+
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http
-			.authorizeRequests().antMatchers("/login").permitAll()
-			.and()			
-				.formLogin().loginPage("/login")
-				.usernameParameter("username").passwordParameter("password").permitAll()
-	            .successForwardUrl("/processLogin")
-	            .failureUrl("/login?error=true")
-	        .and()
-	            .logout().logoutUrl("/logout").permitAll()
-			.and()
-				.authorizeRequests().antMatchers("/welcome").hasAnyRole("PRINCIPAL", "ADMIN","LIBRARIAN")
+		http.authorizeRequests().antMatchers("/login").permitAll().and().formLogin()
+				.loginPage("/login").usernameParameter("username").passwordParameter("password").permitAll()
+				.successForwardUrl("/processLogin").failureUrl("/login?error=true")
+				.failureHandler(authenticationFailureHandler).and().logout().logoutUrl("/logout").permitAll()
+				.invalidateHttpSession(true).and().authorizeRequests().antMatchers("/welcome")
+				.hasAnyRole("PRINCIPAL", "ADMIN", "LIBRARIAN")
 
-	        .and()
-				.authorizeRequests().antMatchers("/menu/add-new-subject").hasAnyRole("PRINCIPAL", "ADMIN")
-			.and()
-				.authorizeRequests().antMatchers("/menu/delete-subject").hasAnyRole("PRINCIPAL", "ADMIN")
-			.and()
-				.authorizeRequests().antMatchers("/menu/search-subject").hasAnyRole("PRINCIPAL", "ADMIN")
-			.and()
+				.and().authorizeRequests().antMatchers("/menu/add-new-subject").hasAnyRole("PRINCIPAL", "ADMIN").and()
+				.authorizeRequests().antMatchers("/menu/delete-subject").hasAnyRole("PRINCIPAL", "ADMIN").and()
+				.authorizeRequests().antMatchers("/menu/search-subject").hasAnyRole("PRINCIPAL", "ADMIN").and()
 				.authorizeRequests().antMatchers("/menu/all-subjects").hasAnyRole("PRINCIPAL", "ADMIN")
-			
-			.and()
-				.authorizeRequests().antMatchers("/menu/add-new-book").hasAnyRole("LIBRARIAN", "ADMIN")
-			.and()
-				.authorizeRequests().antMatchers("/menu/delete-book").hasAnyRole("LIBRARIAN", "ADMIN")
-			.and()
-				.authorizeRequests().antMatchers("/menu/search-book").hasAnyRole("LIBRARIAN", "ADMIN")
-			.and()
+
+				.and().authorizeRequests().antMatchers("/menu/add-new-book").hasAnyRole("LIBRARIAN", "ADMIN").and()
+				.authorizeRequests().antMatchers("/menu/delete-book").hasAnyRole("LIBRARIAN", "ADMIN").and()
+				.authorizeRequests().antMatchers("/menu/search-book").hasAnyRole("LIBRARIAN", "ADMIN").and()
 				.authorizeRequests().antMatchers("/menu/all-books").hasAnyRole("LIBRARIAN", "ADMIN")
-		
-			.and()
-				.exceptionHandling().accessDeniedPage("/WEB-INF/accessDenied.jsp")
-			.and()
-				.csrf().disable();
+
+				.and().exceptionHandling().accessDeniedPage("/WEB-INF/accessDenied.jsp").and().csrf().disable();
 	}
 
 }

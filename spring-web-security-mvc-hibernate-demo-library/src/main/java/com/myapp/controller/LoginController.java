@@ -26,6 +26,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "auth_error", required = false) String auth_error,
 			@RequestParam(value = "logout", required = false) String logout,
 			@RequestParam(value = "registered", required = false) boolean registered) {
 
@@ -36,10 +37,14 @@ public class LoginController {
 		String registerMsg = null;
 		ModelAndView mv = new ModelAndView("login-view");
 
-		if (error != null) {
+		if (error != null ) {
 			errorMessge = "Username or Password is incorrect !!";
-			mv.addObject("errorMessge", errorMessge);
+			mv.addObject("errorMessge", errorMessge);			
 		}
+		if(auth_error !=null) {
+			mv.addObject("errorMessge", auth_error);			
+		}
+		
 		if (logout != null) {
 			logoutMsg = "You have been successfully logged out of Library !  Thanks for visiting.";
 			mv.addObject("logoutMsg", logoutMsg);
@@ -78,5 +83,6 @@ public class LoginController {
 		return mv;
 
 	}
+
 
 }

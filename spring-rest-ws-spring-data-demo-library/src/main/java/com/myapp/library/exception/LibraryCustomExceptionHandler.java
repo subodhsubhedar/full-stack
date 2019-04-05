@@ -92,20 +92,7 @@ public class LibraryCustomExceptionHandler extends ResponseEntityExceptionHandle
 		return new ResponseEntity<Object>(errRespObj, headers, status);
 	}
 
-	@Override
-	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-			HttpStatus status, WebRequest request) {
-
-		LibraryErrorResponse errRespObj = new LibraryErrorResponse();
-
-		errRespObj.setDateTime(LocalDateTime.now());
-		errRespObj.setHttpStatus(status);
-
-		errRespObj.setErrors(Arrays.asList(ex.getMessage()));
-
-		return new ResponseEntity<Object>(errRespObj, headers, status);
-	}
-
+	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Object> handleGenericException(Throwable ex, HttpServletResponse response)
 			throws IOException {

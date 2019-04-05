@@ -16,4 +16,8 @@ public class LibraryDaoException extends Exception {
 		super(message, throwable);
 	}
 
+	public LibraryDaoException() {
+		super();
+	}
+
 }

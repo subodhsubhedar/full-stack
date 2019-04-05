@@ -1,6 +1,7 @@
 package com.myapp.library.menu.service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,41 +17,38 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.myapp.library.entity.LibraryRole;
 import com.myapp.library.entity.LibraryUser;
-import com.myapp.library.exception.LibraryDaoException;
-import com.myapp.library.menu.dao.LibraryUserDao;
+import com.myapp.library.menu.repository.LibraryUserJpaRepository;
 
 @Service
 public class LibraryUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private LibraryUserDao libraryUserDao;
+	private LibraryUserJpaRepository userRepository;
 
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		try {
-			if(username ==null || username.isEmpty()) {
-				throw new BadCredentialsException("Please enter a valid user name.");
-			}
-			
-			LibraryUser user = libraryUserDao.findByUsername(username);
-
-			if(user ==null ) {
-				throw new BadCredentialsException("Username : "+username+ " does not exists.");
-			}
-			
-			Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-
-			LibraryRole role = user.getRoles();
-
-			grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-
-			return new User(user.getUsername(), user.getPassword(), grantedAuthorities);
-
-		} catch (LibraryDaoException e) {
-			throw new UsernameNotFoundException("LibraryDaoException occured for :" + username, e);
+		if (username == null || username.isEmpty()) {
+			throw new BadCredentialsException("Please enter a valid user name.");
 		}
+
+		Optional<LibraryUser> libUser = userRepository.findByUsername(username);
+		LibraryUser user = null;
+
+		if (libUser.isPresent()) {
+			user = libUser.get();
+		} else {
+			throw new BadCredentialsException("Username : " + username + " does not exists.");
+		}
+
+		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+
+		LibraryRole role = user.getRoles();
+
+		grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+
+		return new User(user.getUsername(), user.getPassword(), grantedAuthorities);
 	}
 
 }
