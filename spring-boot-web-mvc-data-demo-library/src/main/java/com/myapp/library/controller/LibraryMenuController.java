@@ -3,7 +3,6 @@ package com.myapp.library.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,18 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myapp.library.controller.validation.MenuValidator;
-import com.myapp.library.entity.Book;
-import com.myapp.library.exception.LibraryServiceException;
 import com.myapp.library.menu.MainMenu;
 import com.myapp.library.menu.MainMenuModel;
-import com.myapp.library.menu.service.LibraryService;
 
 @Controller
 @RequestMapping("/menu")
 public class LibraryMenuController {
-
-	@Autowired
-	private LibraryService catalogueService;
 
 	@Autowired
 	private MenuValidator validator;
@@ -94,6 +87,7 @@ public class LibraryMenuController {
 		for (MainMenu menu : MainMenu.values()) {
 			if (menu.getKey() == selMenuModelIndex) {
 				model.setMenuDesc(menu.getValue());
+				break;
 			}
 		}
 
@@ -175,41 +169,6 @@ public class LibraryMenuController {
 	@RequestMapping(value = "/quit", method = RequestMethod.GET)
 	public ModelAndView quit() {
 		return new ModelAndView("redirect:/");
-	}
-
-	/**
-	 * 
-	 * @param bookTitle
-	 * @throws LibraryServiceException
-	 */
-	public void searchBook(String bookTitle) throws LibraryServiceException {
-		Book book = catalogueService.getBook(bookTitle);
-
-		if (book != null) {
-			System.out.println("\nBook retrieved : " + book);
-		} else {
-			System.out.println("\nBook not Found.");
-		}
-	}
-
-	/**
-	 * 
-	 * @param bookTitle
-	 * @throws LibraryServiceException
-	 */
-	public Set<Book> findAllBooks() throws LibraryServiceException {
-
-		Set<Book> bookSet = catalogueService.findAllBooks();
-		if (bookSet != null && !bookSet.isEmpty()) {
-			System.out.println("\nTotal Books available : " + bookSet.size());
-			bookSet.forEach(name -> {
-				System.out.println(name.toString());
-			});
-		} else {
-			System.out.println("\nNo Books are available currently in the Catalogue.");
-		}
-
-		return bookSet;
 	}
 
 }

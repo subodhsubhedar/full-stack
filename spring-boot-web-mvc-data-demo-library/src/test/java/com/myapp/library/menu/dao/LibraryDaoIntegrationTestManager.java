@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.myapp.library.entity.Book;
@@ -115,6 +116,7 @@ public class LibraryDaoIntegrationTestManager {
 	}
 
 	@Test
+	@DirtiesContext
 	public void testCreateSubject_shouldCreateNewSubject() throws LibraryServiceException {
 		Subject s = new Subject(5L, "Dockers", 78, null);
 
@@ -122,6 +124,7 @@ public class LibraryDaoIntegrationTestManager {
 	}
 
 	@Test
+	@DirtiesContext
 	public void testCreateBookWithoutSubject_shouldFail() throws LibraryServiceException {
 		Book b = new Book(0, "Understanding Dockers", 4000, 1, LocalDate.now(), null);
 		bookRepository.save(b);
@@ -131,6 +134,7 @@ public class LibraryDaoIntegrationTestManager {
 	}
 
 	@Test
+	@DirtiesContext
 	public void testCreateBookWithSubject_shouldReturnCorrectBook() throws LibraryServiceException {
 
 		Subject s = subjectRepository.findBySubtitle("Jenkins").get();
@@ -145,6 +149,7 @@ public class LibraryDaoIntegrationTestManager {
 	}
 
 	@Test
+	@DirtiesContext
 	public void testCreateBookWithSubject_shouldReturnCorrectSubject() throws LibraryServiceException {
 		Subject s = subjectRepository.findBySubtitle("Jenkins").get();
 
@@ -158,6 +163,7 @@ public class LibraryDaoIntegrationTestManager {
 	}
 
 	@Test
+	@DirtiesContext
 	public void testDeleteSubjectHavingBooks_shouldThrowException() throws LibraryServiceException {
 
 		Subject s = subjectRepository.findBySubtitle("Spring Boot").get();
@@ -165,6 +171,7 @@ public class LibraryDaoIntegrationTestManager {
 	}
 
 	@Test
+	@DirtiesContext
 	public void testDeleteSubjectHavingNoBooks_shouldDelete() throws LibraryServiceException {
 		Subject s = subjectRepository.findBySubtitle("AWS").get();
 		subjectRepository.delete(s);
@@ -173,6 +180,7 @@ public class LibraryDaoIntegrationTestManager {
 	}
 
 	@Test
+	@DirtiesContext
 	public void testDeleteBook_shouldDelete() throws LibraryServiceException {
 		Book b = bookRepository.findByTitle("Building projects with Maven").get();
 

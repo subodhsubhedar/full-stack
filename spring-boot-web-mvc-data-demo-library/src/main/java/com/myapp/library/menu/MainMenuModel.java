@@ -19,6 +19,13 @@ public class MainMenuModel {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		MainMenuModel model = (MainMenuModel) obj; 
+		
+		return this.menuIndex == model.getMenuIndex();
+	}
+	
+	@Override
 	public String toString() {
 		return "MainMenuModel [menuIndex=" + menuIndex + ", menuDesc=" + menuDesc +  ", menuCriteria=" + menuCriteria +"]";
 	}

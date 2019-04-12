@@ -106,7 +106,7 @@ public class LibrarySubjectController {
 	}
 
 	@RequestMapping(value = "/search-subject", method = RequestMethod.GET)
-	public ModelAndView searchSubject(@ModelAttribute("searchSubjectTitle") final String subjectTitle) {
+	public ModelAndView searchSubject(@ModelAttribute("searchSubjectTitle") final @Validated String  subjectTitle) {
 
 		ModelAndView mv = new ModelAndView("search-subject-view");
 
@@ -147,7 +147,7 @@ public class LibrarySubjectController {
 	}
 
 	@RequestMapping(value = "/delete-subject", method = RequestMethod.POST)
-	public ModelAndView processDeleteSubject(@ModelAttribute("subject") final Subject subject) {
+	public ModelAndView processDeleteSubject(@ModelAttribute("subject") final @Validated Subject subject) {
 
 		ModelAndView mv = new ModelAndView("delete-subject-view");
 		System.out.println("Subject title to be deleted : " + subject.getSubtitle());
