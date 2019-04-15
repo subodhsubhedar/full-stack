@@ -65,19 +65,14 @@ public class LibraryBookController {
 	}
 
 	@RequestMapping(value = "/all-books", method = RequestMethod.GET)
-	public ModelAndView listAllBooks(ModelMap map) {
+	public ModelAndView listAllBooks(ModelMap map) throws LibraryServiceException {
 
 		System.out.println("listAllBooks method...");
 		ModelAndView mv = new ModelAndView("all-books-view");
 
-		try {
-			Set<Book> bookSet = this.findAllBooks();
-			if (bookSet != null) {
-				mv.addObject("allBooksList", bookSet);
-			}
-
-		} catch (LibraryServiceException e) {
-			e.printStackTrace();
+		Set<Book> bookSet = this.findAllBooks();
+		if (bookSet != null) {
+			mv.addObject("allBooksList", bookSet);
 		}
 		return mv;
 
@@ -196,8 +191,7 @@ public class LibraryBookController {
 	}
 
 	@RequestMapping(value = "/add-new-book", method = RequestMethod.POST)
-	public ModelAndView createBook(@ModelAttribute("book") final @Validated Book book, BindingResult result,
-			HttpServletRequest request) {
+	public ModelAndView createBook(@ModelAttribute("book") final @Validated Book book, BindingResult result) {
 
 		ModelAndView mv = new ModelAndView("add-book-view");
 

@@ -70,26 +70,6 @@ public class LibrarySubjectController {
 	 * 
 	 * @throws LibraryServiceException
 	 */
-	public Set<Subject> findAllSubjectsByDuration(int durationStart, int durationEnd) throws LibraryServiceException {
-
-		Set<Subject> subjectSet = catalogueService.findSubjectByDuration(durationStart, durationEnd);
-
-		if (subjectSet != null && !subjectSet.isEmpty()) {
-			System.out.println("\nTotal Subjects available : " + subjectSet.size());
-			subjectSet.forEach(name -> {
-				System.out.println(name.toString());
-			});
-		} else {
-			System.out.println("\nNo Subjects are available currently in the Library Catalogue.");
-		}
-		return subjectSet;
-	}
-
-	/**
-	 * 
-	 * 
-	 * @throws LibraryServiceException
-	 */
 	public Set<Subject> findAllSubjects() throws LibraryServiceException {
 
 		Set<Subject> subjectSet = catalogueService.findAllSubjects();

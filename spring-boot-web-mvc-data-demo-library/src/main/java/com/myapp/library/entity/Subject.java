@@ -53,6 +53,7 @@ public class Subject implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+
 	@Override
 	public String toString() {
 		return "Subject [subjectId=" + subjectId + ", subtitle=" + subtitle + ", durationInHrs=" + durationInHrs + "]";
