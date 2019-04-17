@@ -19,13 +19,15 @@ public class BookValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
+		final String ntEmpty = "NotEmpty.book"; 
+		
 		Book book = (Book) target;
 
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "NotEmpty.book");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "NotEmpty.book");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "volume", "NotEmpty.book");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publishDate", "NotEmpty.book");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subject", "NotEmpty.book");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", ntEmpty);
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", ntEmpty);
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "volume", ntEmpty);
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publishDate", ntEmpty);
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subject", ntEmpty);
 
 		if (book.getPrice() == 0) {
 			errors.rejectValue("price", "NotEmpty.book.price");

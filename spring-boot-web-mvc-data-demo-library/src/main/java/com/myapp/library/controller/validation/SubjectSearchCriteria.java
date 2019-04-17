@@ -33,7 +33,6 @@ public class SubjectSearchCriteria {
 	}
 
 	public SubjectSearchCriteria() {
-		// TODO Auto-generated constructor stub
 	}
 
 }

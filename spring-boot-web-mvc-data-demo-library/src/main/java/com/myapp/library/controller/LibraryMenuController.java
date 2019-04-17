@@ -39,10 +39,10 @@ public class LibraryMenuController {
 
 		ModelAndView mv = buildMainMenuModelView();
 
-		if (model == null || (model != null && ((model.getMenuDesc() == null) || (model.getMenuDesc().equals(""))))) {
+		if (model == null || (((model.getMenuDesc() == null) || (model.getMenuDesc().equals(""))))) {
 			mv.addObject("mainMenuModel",
 					new MainMenuModel(MainMenu.ADD_NEW_SUBJECT.getKey(), MainMenu.ADD_NEW_SUBJECT.getValue()));
-		}
+		} 
 
 		return mv;
 	}

@@ -1,11 +1,7 @@
 package com.myapp.library.menu.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -57,21 +53,13 @@ public class LibraryErrorControllerTestManager {
 	@Test
 	public void testErrorController_shouldShowErrorView() throws Exception {
 
-		/*
-		 * when(serviceMock.findAllBooks()).thenThrow(new
-		 * LibraryServiceException("DB Connection error"));
-		 * 
-		 * this.mockMvc.perform(get("/menu/all-books")) //.andExpect(status().isOk())
-		 * .andExpect(view().name("error"));
-		 */
-
 		when(httpServlerRequestMock.getRequestURL()).thenReturn(new StringBuffer("/menu/all-books"));
 
 		ModelAndView mv = errorController.handleException(httpServlerRequestMock,
 				new LibraryServiceException("DB Connection error"));
 
 		assertTrue(mv.getViewName().equals("error"));
-		
+
 	}
 
 }

@@ -41,7 +41,7 @@ public class LibraryDaoIntegrationTestManager {
 		Subject s3 = new Subject(0, "Maven", 78, null);
 		Subject s4 = new Subject(0, "Jenkins", 28, null);
 		Subject s5 = new Subject(0, "AWS", 92, null);
-
+ 
 		entityMngr.persist(s1);
 		entityMngr.persist(s2);
 		entityMngr.persist(s3);
@@ -104,7 +104,7 @@ public class LibraryDaoIntegrationTestManager {
 		assertTrue("Spring Boot"
 				.equals(bookRepository.findByTitle("Spring Boot Workshop").get().getSubject().getSubtitle()));
 	}
-
+ 
 	@Test
 	public void testFindBookByTitle_shouldReturnCorrectPublishDate() throws LibraryServiceException {
 		assertTrue(LocalDate.now().equals(bookRepository.findByTitle("Spring Boot Workshop").get().getPublishDate()));

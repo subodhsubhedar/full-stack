@@ -51,7 +51,7 @@ public class Book implements Serializable {
 
 	public Book(long bookId, String title, double price, int volume, LocalDate publishDate, Subject subjct) {
 		super();
-		//this.bookId = bookId;
+		this.bookId = bookId;
 		this.title = title;
 		this.price = price;
 		this.volume = volume;
@@ -60,7 +60,7 @@ public class Book implements Serializable {
 	}
 
 	public Book() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@Override

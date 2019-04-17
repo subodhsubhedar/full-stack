@@ -9,16 +9,16 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,7 +45,7 @@ public class LibraryBookController {
 
 		PropertyEditor editor = new PropertyEditorSupport() {
 			@Override
-			public void setAsText(String text) throws IllegalArgumentException {
+			public void setAsText(String text) {
 				if (!text.trim().isEmpty()) {
 					super.setValue(LocalDate.parse(text.trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 				}
@@ -62,9 +62,9 @@ public class LibraryBookController {
 		};
 		binder.registerCustomEditor(LocalDate.class, "publishDate", editor);
 
-	}
+	} 
 
-	@RequestMapping(value = "/all-books", method = RequestMethod.GET)
+	@GetMapping(value = "/all-books")
 	public ModelAndView listAllBooks(ModelMap map) throws LibraryServiceException {
 
 		System.out.println("listAllBooks method...");
@@ -78,7 +78,7 @@ public class LibraryBookController {
 
 	}
 
-	@RequestMapping(value = "/search-book", method = RequestMethod.GET)
+	@GetMapping(value = "/search-book")
 	public ModelAndView searchBook(@ModelAttribute("searchBookTitle") final String bookTitle) {
 
 		ModelAndView mv = new ModelAndView("search-book-view");
@@ -96,7 +96,7 @@ public class LibraryBookController {
 
 	}
 
-	@RequestMapping(value = "/delete-book", method = RequestMethod.GET)
+	@GetMapping(value = "/delete-book")
 	public ModelAndView deleteBook(@ModelAttribute("deleteBookTitle") final String bookTitle) {
 
 		ModelAndView mv = new ModelAndView("delete-book-view");
@@ -113,7 +113,7 @@ public class LibraryBookController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/delete-book", method = RequestMethod.POST)
+	@PostMapping(value = "/delete-book")
 	public ModelAndView processDeleteBook(@ModelAttribute("book") final Book book) {
 
 		ModelAndView mv = new ModelAndView("delete-book-view");
@@ -154,9 +154,7 @@ public class LibraryBookController {
 		Set<Book> bookSet = catalogueService.findAllBooks();
 		if (bookSet != null && !bookSet.isEmpty()) {
 			System.out.println("\nTotal Books available : " + bookSet.size());
-			bookSet.forEach(name -> {
-				System.out.println(name.toString());
-			});
+			bookSet.forEach(name -> 	System.out.println(name.toString()));
 		} else {
 			System.out.println("\nNo Books are available currently in the Catalogue.");
 		}
@@ -175,22 +173,22 @@ public class LibraryBookController {
 			e.printStackTrace();
 		}
 
-		List<Subject> subjectList = new ArrayList<Subject>();
+		List<Subject> subjectList = new ArrayList<>();
 
 		if (allSubjects != null) {
-			allSubjects.stream().forEach((subjct) -> subjectList.add(subjct));
+			allSubjects.stream().forEach(subjct -> subjectList.add(subjct));
 		}
 
 		return subjectList;
 	}
 
-	@RequestMapping(value = "/add-new-book", method = RequestMethod.GET)
+	@GetMapping(value = "/add-new-book")
 	public ModelAndView addNewBook(@ModelAttribute("book") final Book book) {
 
 		return new ModelAndView("add-book-view");
 	}
 
-	@RequestMapping(value = "/add-new-book", method = RequestMethod.POST)
+	@PostMapping(value = "/add-new-book")
 	public ModelAndView createBook(@ModelAttribute("book") final @Validated Book book, BindingResult result) {
 
 		ModelAndView mv = new ModelAndView("add-book-view");

@@ -20,14 +20,18 @@ public class MainMenuModel {
 
 	@Override
 	public boolean equals(Object obj) {
-		MainMenuModel model = (MainMenuModel) obj; 
-		
-		return this.menuIndex == model.getMenuIndex();
+		MainMenuModel model = (MainMenuModel) obj;
+		if (model != null) {
+			return this.menuIndex == model.getMenuIndex();
+		} else
+			return false;
+
 	}
-	
+
 	@Override
 	public String toString() {
-		return "MainMenuModel [menuIndex=" + menuIndex + ", menuDesc=" + menuDesc +  ", menuCriteria=" + menuCriteria +"]";
+		return "MainMenuModel [menuIndex=" + menuIndex + ", menuDesc=" + menuDesc + ", menuCriteria=" + menuCriteria
+				+ "]";
 	}
 
 	public String getMenuCriteria() {

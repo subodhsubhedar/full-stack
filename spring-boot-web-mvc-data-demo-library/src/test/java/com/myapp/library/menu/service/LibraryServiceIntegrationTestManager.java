@@ -47,7 +47,7 @@ public class LibraryServiceIntegrationTestManager {
 		assertNotNull(service);
 	}
 
-	@Before
+	@Before 
 	public void setUpDS() {
 
 		subjectDs = new ArrayList<Subject>();
